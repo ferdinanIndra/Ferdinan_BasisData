@@ -23,7 +23,7 @@ CREATE TABLE transaksi (
 );
 
 
-
+//**DQL**\\
 SELECT * FROM pelanggan;
 
 SELECT * FROM produk WHERE stok < 10;
@@ -31,7 +31,7 @@ SELECT * FROM produk WHERE stok < 10;
 SELECT * FROM transaksi WHERE tanggal BETWEEN '2024-01-01' AND '2024-12-31';
 
 
-
+//**DML**\\
 INSERT INTO pelanggan (nama_pelanggan, alamat, telepon)
 VALUES ('Satrio', 'Jl. Pam No. 5', '081234567891');
 
@@ -43,7 +43,7 @@ VALUES ('Laptop Lenovo ThinkPad', 15000000, 20),
        ('Laptop MacBook Air', 20000000, 15);
 
 
-STORE PROCEDURE
+//**STORE PROCEDURE**\\
 DELIMITER //
 CREATE PROCEDURE tambah_pelanggan (
     IN p_nama_pelanggan VARCHAR(100),
