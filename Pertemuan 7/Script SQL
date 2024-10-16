@@ -1,0 +1,76 @@
+create database p_oracle;
+use p_oracle;
+
+CREATE TABLE CalonSiswa (
+    id_calon_siswa INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(100) NOT NULL,
+    alamat TEXT,
+    tanggal_lahir DATE,
+    no_telp VARCHAR(20),
+    email VARCHAR(100)
+);
+
+CREATE TABLE Formulir (
+    id_formulir INT PRIMARY KEY AUTO_INCREMENT,
+    id_calon_siswa INT,
+    tanggal_pengisian DATE,
+    status_pendaftaran ENUM('Belum Lengkap', 'Sudah Lengkap', 'Diterima', 'Ditolak'),
+    FOREIGN KEY (id_calon_siswa) REFERENCES CalonSiswa(id_calon_siswa)
+);
+
+CREATE TABLE pembayaran (
+  id_pembayaran INT PRIMARY KEY,
+  id_calon_siswa INT,
+  tanggal_bayar DATE,
+  jumlah DECIMAL(10,2),
+  metode_pembayaran VARCHAR(50),
+  FOREIGN KEY (id_calon_siswa) REFERENCES CalonSiswa(id_calon_siswa)
+);
+
+CREATE TABLE Pengguna (
+    id_pengguna INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE,
+    password VARCHAR(255),
+    role ENUM('Kepala Sekolah', 'Ketua Yayasan')
+);
+
+INSERT INTO CalonSiswa (nama, alamat, tanggal_lahir, no_telp, email)
+VALUES ('Indra Ramadhan', 'Jl. Parkit No. 1', '2005-01-01', '08123456789', 'indraramadhan@example.com');
+
+INSERT INTO Formulir (id_calon_siswa, tanggal_pengisian, status_pendaftaran)
+VALUES (1, '2024-04-14', 'Diterima');
+
+UPDATE Formulir SET status_pendaftaran = 'Diterima' WHERE id_formulir = 1;
+
+DROP TABLE pembayaran;
+
+INSERT INTO pembayaran (id_calon_siswa, tanggal_bayar, jumlah, metode_pembayaran)
+VALUES
+  (1, '2023-02-01', 1000000, 'Transfer');
+  
+  INSERT INTO Formulir (id_formulir, id_calon_siswa, tanggal_pengisian, status_pendaftaran)
+VALUES (1, 1, '2024-04-12', 'Sudah Lengkap');
+
+select * from calonsiswa;
+
+INSERT INTO Pengguna (id_pengguna, username, password, role)
+VALUES (1, 'Noordin', 'rahasia123', 'Ketua Yayasan'),
+(2, 'M Top', 'Azhari123', 'Kepala Sekolah');
+
+ALTER TABLE CalonSiswa ADD COLUMN agama VARCHAR(20);
+
+ALTER TABLE Formulir MODIFY COLUMN tanggal_pengisian DATETIME;
+
+ALTER TABLE Pembayaran DROP COLUMN jumlah;
+
+DELIMITER $$
+CREATE PROCEDURE GetHasilPembayaran()
+BEGIN
+    SELECT SUM(tanggal_bayar) AS metode_pembayaran FROM Pembayaran;
+END $$
+DELIMITER ;
+
+
+
+
+
